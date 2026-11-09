@@ -1,0 +1,34 @@
+name: cloud fork sync
+on:
+  schedule:
+    - cron: "0 */6 * * *"
+  workflow_dispatch:
+    inputs:
+      mode:
+        description: "sync / init-tags / restore"
+        required: false
+        default: "sync"
+      repo:
+        description: "restore 时指定单个仓库名，留空表示全部"
+        required: false
+        default: ""
+permissions:
+  contents: read
+concurrency:
+  group: cloud-fork-sync
+  cancel-in-progress: false
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v4
+      - name: Run cloud sync
+        env:
+          SYNC_PAT: ${{ secrets.SYNC_PAT }}
+          MODE: ${{ inputs.mode || 'sync' }}
+          TARGET_REPO: ${{ inputs.repo || '' }}
+        run: python scripts/cloud_sync.py
+      - name: Surface failures
+        if: failure()
+        run: echo "::error::cloud fork sync 存在需关注项，请查看 Step Summary 与上方日志"
