@@ -167,7 +167,8 @@ def main():
         code, body = api("POST", "/repos/%s/merge-upstream" % fork, {"branch": branch})
         detail = body.get("merge_type") or body.get("message", "")
         item.append("merge-upstream HTTP %s / %s" % (code, detail))
-        if code not in (200, 422):
+        if code != 200:
+            item.append("**同步失败（HTTP %s），fork 保持在最后有效版本**" % code)
             errors += 1
         lines.append(" ".join(item))
 
