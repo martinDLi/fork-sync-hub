@@ -1,7 +1,8 @@
 name: cloud fork sync
 on:
   schedule:
-    - cron: "0 */6 * * *"
+    # 每 2 个日历日 00:00 UTC（北京 08:00）；cron 是日历语义，非严格 48 小时间隔
+    - cron: "0 0 */2 * *"
   workflow_dispatch:
     inputs:
       mode:
