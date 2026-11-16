@@ -33,6 +33,7 @@ REPOS = [
     {"name": "security-audit-skill", "branch": "main", "upstream": "cloudflare/security-audit-skill"},
     {"name": "open-code-review", "branch": "main", "upstream": "alibaba/open-code-review"},
     {"name": "ZCode", "branch": "main", "upstream": "zai-org/ZCode"},
+    {"name": "chat-demo", "branch": "main", "upstream": "deepseek-ai/chat-demo"},
 ]
 
 
